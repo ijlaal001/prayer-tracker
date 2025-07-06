@@ -1,0 +1,125 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #121212;
+    color: #f0f0f0;
+    text-align: center;
+    padding: 50px;
+    margin: 0;
+}
+
+.container {
+    background-color: #1f1f1f;
+    border-radius: 12px;
+    padding: 30px;
+    display: inline-block;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+    max-width: 400px;
+    width: 90%;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #00e676;
+}
+
+/* Buttons */
+button {
+    margin: 10px 5px;
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #444;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+#progress {
+    height: 100%;
+    width: 0%;
+    background-color: #00c853;
+    transition: width 0.4s ease-in-out;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #222;
+    padding: 20px 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0, 255, 100, 0.1);
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    margin: 10px 0 20px;
+    font-size: 16px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    margin: 20px 0;
+}
+
+/* History List */
+#historyList {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-left: 15px;
+    font-size: 14px;
+    color: #bbb;
+}
+
+#historyList li {
+    margin-bottom: 6px;
+}
