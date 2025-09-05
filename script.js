@@ -56,10 +56,10 @@ async function loadCount() {
     const history = data.history || [];
     historyList.innerHTML = "";
     history.reverse().forEach((entry, i) => {
-      const li = document.createElement("li");
-      li.textContent = `${i + 1}. +1 at ${new Date(entry).toLocaleString()}`;
-      historyList.appendChild(li);
-    });
+  const li = document.createElement("li");
+  li.textContent = `${i + 1}. +1 at ${new Date(entry).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`;
+  historyList.appendChild(li);
+});
   } else {
     await setDoc(userRef, { count: 0, history: [] });
   }
