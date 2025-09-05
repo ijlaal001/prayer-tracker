@@ -1,7 +1,6 @@
 // Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -16,9 +15,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth(app);
 
-let userId = null;
+// Fixed user ID for all devices
+const userRef = doc(db, "users", "ijlaal");
+
 let count = 0;
 
 const countEl = document.getElementById("count");
@@ -31,20 +31,8 @@ const manualCount = document.getElementById("manualCount");
 const updateCount = document.getElementById("updateCount");
 const historyList = document.getElementById("historyList");
 
-// Authenticate anonymously and track user ID
-signInAnonymously(auth)
-  .then(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        userId = user.uid;
-        loadCount();
-      }
-    });
-  });
-
 // Load count and history
 async function loadCount() {
-  const userRef = doc(db, "users", userId);
   const docSnap = await getDoc(userRef);
 
   if (docSnap.exists()) {
@@ -56,10 +44,10 @@ async function loadCount() {
     const history = data.history || [];
     historyList.innerHTML = "";
     history.reverse().forEach((entry, i) => {
-  const li = document.createElement("li");
-  li.textContent = `${i + 1}. +1 at ${new Date(entry).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`;
-  historyList.appendChild(li);
-});
+      const li = document.createElement("li");
+      li.textContent = `${i + 1}. +1 at ${new Date(entry).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`;
+      historyList.appendChild(li);
+    });
   } else {
     await setDoc(userRef, { count: 0, history: [] });
   }
@@ -67,7 +55,6 @@ async function loadCount() {
 
 // Save count and push timestamp to history
 async function saveCount() {
-  const userRef = doc(db, "users", userId);
   await updateDoc(userRef, {
     count: count,
     history: arrayUnion(Date.now())
@@ -110,7 +97,6 @@ updateCount.onclick = async () => {
   if (!isNaN(val) && val >= 0 && val <= 1100) {
     count = val;
     updateProgress();
-    const userRef = doc(db, "users", userId);
     await setDoc(userRef, { count: count }, { merge: true });
     loadCount();
     menuModal.style.display = "none";
@@ -118,3 +104,6 @@ updateCount.onclick = async () => {
     alert("Please enter a number between 0 and 1100.");
   }
 };
+
+// Initial load
+loadCount();
