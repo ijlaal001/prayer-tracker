@@ -45,7 +45,8 @@ async function loadCount() {
     historyList.innerHTML = "";
     history.reverse().forEach((entry, i) => {
       const li = document.createElement("li");
-      li.textContent = `${i + 1}. +1 at ${new Date(entry).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`;
+      const date = entry.toMillis ? new Date(entry.toMillis()) : new Date(entry); // convert Firestore Timestamp if needed
+      li.textContent = `${i + 1}. +1 at ${date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`;
       historyList.appendChild(li);
     });
   } else {
