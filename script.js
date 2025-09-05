@@ -17,7 +17,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Fixed user ID for all devices
-const userRef = doc(db, "users", "ijlaal");
+const userRef = doc(db, "users", "Ghk8sPgRnOQyZLVMCM24sIzSpgo2");
 
 let count = 0;
 
