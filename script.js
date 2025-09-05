@@ -31,6 +31,14 @@ const manualCount = document.getElementById("manualCount");
 const updateCount = document.getElementById("updateCount");
 const historyList = document.getElementById("historyList");
 
+// Helper: Get IST timestamp
+function getISTTimestamp() {
+  const date = new Date();
+  const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+  const istOffset = 5.5 * 60 * 60000; // IST = UTC +5:30
+  return new Date(utc + istOffset).getTime();
+}
+
 // Load count and history
 async function loadCount() {
   const docSnap = await getDoc(userRef);
@@ -44,8 +52,8 @@ async function loadCount() {
     const history = data.history || [];
     historyList.innerHTML = "";
     history.reverse().forEach((entry, i) => {
+      const date = entry.toMillis ? new Date(entry.toMillis()) : new Date(entry);
       const li = document.createElement("li");
-      const date = entry.toMillis ? new Date(entry.toMillis()) : new Date(entry); // convert Firestore Timestamp if needed
       li.textContent = `${i + 1}. +1 at ${date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`;
       historyList.appendChild(li);
     });
@@ -54,11 +62,11 @@ async function loadCount() {
   }
 }
 
-// Save count and push timestamp to history
+// Save count and push timestamp to history in IST
 async function saveCount() {
   await updateDoc(userRef, {
     count: count,
-    history: arrayUnion(Date.now())
+    history: arrayUnion(getISTTimestamp())
   });
 }
 
